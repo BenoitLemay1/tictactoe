@@ -1,0 +1,25 @@
+*, 
+*::after, 
+*::before {
+    margin: 0px;
+    border: 0px;
+    box-sizing: border-box;
+}
+
+#container {
+    width: 400px;
+    height: 400px;
+    margin:auto;
+    border: solid 2px red;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+}
+
+.box {
+    border: solid 1px black;
+}
+
+.hidden {
+    display:none;
+}
