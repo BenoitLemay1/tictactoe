@@ -82,70 +82,81 @@ const gameController = (() => {
           Gameboard.getBoard()[0][2] === Gameboard.getBoard()[2][0])
       ) {
         isGameOver = true;
-        return (
-          "Game Over " + activePlayer.name + " wins with " + activePlayer.marker
-        );
+        return 1;
       }
     }
 
-    // //condition for tie
+    //condition for tie
     if (turnCount > 8) {
       isGameOver = true;
-      return "Tie";
+      return 0;
     }
-    switchPlayers();
-    return activePlayer;
+    return -1;
   };
 
-  return { makeMove, checkWin, switchPlayers, resetGame };
+  const endGame = () => {
+    alert("The game is over, do you want to play again?");
+    Gameboard.resetBoard();
+    screenController.displayBoard();
+  };
+
+  return { makeMove, checkWin, switchPlayers, resetGame, endGame };
 })();
 
-const displayBoard = () => {
+const screenController = (() => {
   const box = document.getElementsByClassName("box");
 
-  for (let i = 0; i < 3; i++) {
-    box[i].textContent = Gameboard.getBoard()[0][i];
-  }
-  for (let i = 3; i < 6; i++) {
-    box[i].textContent = Gameboard.getBoard()[1][i - 3];
-  }
-  for (let i = 6; i < 9; i++) {
-    box[i].textContent = Gameboard.getBoard()[2][i - 6];
-  }
+  const displayBoard = () => {
+    for (let i = 0; i < 3; i++) {
+      box[i].textContent = Gameboard.getBoard()[0][i];
+    }
+    for (let i = 3; i < 6; i++) {
+      box[i].textContent = Gameboard.getBoard()[1][i - 3];
+    }
+    for (let i = 6; i < 9; i++) {
+      box[i].textContent = Gameboard.getBoard()[2][i - 6];
+    }
 
-  return;
+    return;
+  };
+
+  const clickHandler = () => {
+    for (let i = 0; i < 3; i++) {
+      box[i].addEventListener("click", (e) => {
+        playRound(0, i);
+      });
+    }
+
+    for (let i = 3; i < 6; i++) {
+      box[i].addEventListener("click", (e) => {
+        playRound(1, i - 3);
+      });
+    }
+    for (let i = 6; i < 9; i++) {
+      box[i].addEventListener("click", (e) => {
+        playRound(2, i - 6);
+      });
+    }
+
+    return;
+  };
+  return { displayBoard, clickHandler };
+})();
+
+screenController.clickHandler();
+
+const playRound = (row, index) => {
+  if (gameController.makeMove(row, index)) {
+    screenController.displayBoard();
+    if (gameController.checkWin() === 1) {
+      gameController.endGame();
+      gameController.resetGame();
+    } else if (gameController.checkWin() === 0) {
+      alert("tie");
+    } else {
+      gameController.switchPlayers();
+    }
+  } else {
+    return;
+  }
 };
-
-const DOM = () => {
-  const box = document.getElementsByClassName("box");
-
-  for (let i = 0; i < 3; i++) {
-    box[i].addEventListener("click", (e) => {
-      if (gameController.makeMove(0, i)) {
-        console.log(gameController.checkWin());
-      }
-      displayBoard();
-    });
-  }
-
-  for (let i = 3; i < 6; i++) {
-    box[i].addEventListener("click", (e) => {
-      if (gameController.makeMove(1, i - 3)) {
-        console.log(gameController.checkWin());
-      }
-      displayBoard();
-    });
-  }
-  for (let i = 6; i < 9; i++) {
-    box[i].addEventListener("click", (e) => {
-      if (gameController.makeMove(2, i - 6)) {
-        console.log(gameController.checkWin());
-      }
-      displayBoard();
-    });
-  }
-
-  return;
-};
-
-DOM();
