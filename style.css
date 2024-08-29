@@ -1,25 +1,77 @@
-*, 
-*::after, 
+*,
+*::after,
 *::before {
-    margin: 0px;
-    border: 0px;
-    box-sizing: border-box;
+  margin: 0px;
+  border: 0px;
+  box-sizing: border-box;
+}
+
+@keyframes rotation {
+  0% {
+    transform: translateY(0) rotate(45deg);
+
+  }
+
+  50% {
+    transform: translateY(-200px) rotate(45deg);
+
+}
+
+  100% {
+    transform: translateY(-500px) rotate(45deg);
+
+}
 }
 
 #container {
-    width: 400px;
-    height: 400px;
-    margin:auto;
-    border: solid 2px red;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr;
+  width: 400px;
+  height: 400px;
+  margin: auto;
+  border: solid 2px red;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
 }
 
 .box {
-    border: solid 1px black;
+  border: solid 1px black;
 }
 
 .hidden {
-    display:none;
+  display: none;
+}
+
+#message {
+  height: 100px;
+  width: 400px;
+  margin: auto;
+  border: solid 2px black;
+}
+
+#X-container {
+  position: relative;
+  margin: auto;
+  height: 100px;
+  width: 100px;
+  transform: rotate(45deg);
+  animation: rotation 2s linear ;
+}
+
+#X1 {
+  position: relative;
+  top: 0px;
+  left: calc(50% - 15px);
+  height: calc(50% + 15px);
+  width: calc(50% + 15px);
+  border-left: solid 30px black;
+  border-bottom: solid 30px black;
+}
+
+#X2 {
+  position: relative;
+  top: -30px;
+  height: calc(50% + 15px);
+  width: calc(50% + 15px);
+  border-right: solid 30px black;
+  border-top: solid 30px black;
 }

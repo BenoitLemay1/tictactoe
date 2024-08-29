@@ -94,10 +94,26 @@ const gameController = (() => {
     return -1;
   };
 
-  const endGame = () => {
-    alert("The game is over, do you want to play again?");
-    Gameboard.resetBoard();
-    screenController.displayBoard();
+  const endGame = (n) => {
+    // alert("The game is over, do you want to play again?");
+    const message = document.querySelector("#message");
+    if (n === 1) {
+      message.textContent = `GAME IS OVER.  ${activePlayer.name} WON with the ${activePlayer.marker}`;
+    } else if (n === 0) {
+      message.textContent = `GAME IS OVER. TIE `;
+    }
+    const btn = document.createElement("button");
+    btn.textContent = "Reset";
+    message.appendChild(btn);
+    btn.addEventListener("click", () => {
+      turnCount = 0;
+      isGameOver = false;
+      gameController.switchPlayers();
+      Gameboard.resetBoard();
+      screenController.displayBoard();
+      message.textContent = "";
+      btn.remove();
+    });
   };
 
   return { makeMove, checkWin, switchPlayers, resetGame, endGame };
@@ -123,23 +139,30 @@ const screenController = (() => {
   const clickHandler = () => {
     for (let i = 0; i < 3; i++) {
       box[i].addEventListener("click", (e) => {
-        playRound(0, i);
+        if (gameController.checkWin() === -1) {
+          playRound(0, i);
+        }
       });
     }
 
     for (let i = 3; i < 6; i++) {
       box[i].addEventListener("click", (e) => {
-        playRound(1, i - 3);
+        if (gameController.checkWin() === -1) {
+          playRound(1, i - 3);
+        }
       });
     }
     for (let i = 6; i < 9; i++) {
       box[i].addEventListener("click", (e) => {
-        playRound(2, i - 6);
+        if (gameController.checkWin() === -1) {
+          playRound(2, i - 6);
+        }
       });
     }
 
     return;
   };
+
   return { displayBoard, clickHandler };
 })();
 
@@ -149,10 +172,9 @@ const playRound = (row, index) => {
   if (gameController.makeMove(row, index)) {
     screenController.displayBoard();
     if (gameController.checkWin() === 1) {
-      gameController.endGame();
-      gameController.resetGame();
+      gameController.endGame(1);
     } else if (gameController.checkWin() === 0) {
-      alert("tie");
+      gameController.endGame(0);
     } else {
       gameController.switchPlayers();
     }
