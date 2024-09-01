@@ -113,6 +113,7 @@ const gameController = (() => {
       screenController.displayBoard();
       message.textContent = "";
       btn.remove();
+      removeElementsByClass("X-container");
     });
   };
 
@@ -124,13 +125,55 @@ const screenController = (() => {
 
   const displayBoard = () => {
     for (let i = 0; i < 3; i++) {
-      box[i].textContent = Gameboard.getBoard()[0][i];
+      if (Gameboard.getBoard()[0][i] === "X") {
+        const X = document.createElement("div");
+        const X1 = document.createElement("div");
+        const X2 = document.createElement("div");
+        X.classList.add("X-container");
+        X1.classList.add("X1");
+        X2.classList.add("X2");
+        X.appendChild(X1);
+        X.appendChild(X2);
+        box[i].appendChild(X);
+      } else if (Gameboard.getBoard()[0][i] === "O") {
+        const O = document.createElement("div");
+        O.classList.add("O-container");
+        box[i].appendChild(O);
+      }
     }
     for (let i = 3; i < 6; i++) {
-      box[i].textContent = Gameboard.getBoard()[1][i - 3];
+      if (Gameboard.getBoard()[1][i - 3] === "X") {
+        const X = document.createElement("div");
+        const X1 = document.createElement("div");
+        const X2 = document.createElement("div");
+        X.classList.add("X-container");
+        X1.classList.add("X1");
+        X2.classList.add("X2");
+        X.appendChild(X1);
+        X.appendChild(X2);
+        box[i].appendChild(X);
+      } else if (Gameboard.getBoard()[1][i - 3] === "O") {
+        const O = document.createElement("div");
+        O.classList.add("O-container");
+        box[i].appendChild(O);
+      }
     }
     for (let i = 6; i < 9; i++) {
-      box[i].textContent = Gameboard.getBoard()[2][i - 6];
+      if (Gameboard.getBoard()[2][i - 6] === "X") {
+        const X = document.createElement("div");
+        const X1 = document.createElement("div");
+        const X2 = document.createElement("div");
+        X.classList.add("X-container");
+        X1.classList.add("X1");
+        X2.classList.add("X2");
+        X.appendChild(X1);
+        X.appendChild(X2);
+        box[i].appendChild(X);
+      } else if (Gameboard.getBoard()[2][i - 6] === "O") {
+        const O = document.createElement("div");
+        O.classList.add("O-container");
+        box[i].appendChild(O);
+      }
     }
 
     return;
